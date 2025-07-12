@@ -126,4 +126,53 @@ export class UserController {
         }
     }
 
+    async changePassword(req: Request, res: Response) {
+        const {id} = req.params
+        const { currentPassword, newPassword } = req.body
+
+        try {
+            const user = await userRepository.findById(Number(id))
+            if (!user) {
+                return res.status(404).json({error: 'Usuario nao encontrado'})
+            }
+            const passwordMatch = await bcrypt.compare(currentPassword, user.password)
+            if (!passwordMatch) {
+                return res.status(400).json({ error: 'Senha atual incorreta' })
+            }
+
+            const hashedNewPassword = await bcrypt.hash(newPassword, 10)
+            await userRepository.updatePassword(Number(id), hashedNewPassword)
+
+            return res.status(200).json({ message: 'Senha atualizada com sucesso' })
+        } catch (error) {
+            console.error(error)
+            return res.status(500).json({ error: 'Erro ao trocar a senha' })
+        }
+    }
+
+        async changeUserName(req: Request, res: Response) {
+            const { id } = req.params
+            const { name } = req.body
+
+            if (!name) {
+                return res.status(400).json({ error: 'Nome é obrigatório' })
+            }
+
+            try {
+                const user = await userRepository.findById(Number(id))
+                if (!user) {
+                    return res.status(404).json({ error: 'Usuário não encontrado' })
+                }
+                user.name = name
+                const updatedUser = await userRepository.update(Number(id),user)
+
+                return res.status(200).json(updatedUser)
+            } catch (error) {
+                console.error(error)
+                return res.status(500).json({ error: 'Erro ao alterar nome do usuário' })
+            }
+        }
+
+
+
 }
