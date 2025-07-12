@@ -13,4 +13,12 @@ export class UserRepository extends DefaultRepository<'user'>{
             where: {email}
         });
     }
+    
+    async updatePassword(id: number, newHashedPassword: string) {
+        return prisma.user.update({
+            where: {id},
+            data: {password: newHashedPassword},
+        });
+    }
+
 }

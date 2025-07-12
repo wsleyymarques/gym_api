@@ -4,34 +4,36 @@ const prisma = new PrismaClient()
 
 type DelegateKeys = {
     [K in keyof PrismaClient]: PrismaClient[K] extends {
-        findMany: any
+        findMany: (...args: any[]) => any
     } ? K : never
 }[keyof PrismaClient]
 
+type DelegateType<T extends DelegateKeys> = PrismaClient[T]
+
 export class DefaultRepository<T extends DelegateKeys> {
-    protected repository: PrismaClient[T]
+    protected repository: DelegateType<T>
 
     constructor(model: T) {
         this.repository = prisma[model]
     }
 
-    async create(data: any) {
-        return this.repository.create({ data })
+    async create(data: Prisma.Args<DelegateType<T>, 'create'>['data']) {
+        return (this.repository as any).create({ data })
     }
 
     async findAll() {
-        return this.repository.findMany()
+        return (this.repository as any).findMany()
     }
 
     async findById(id: number) {
-        return this.repository.findUnique({ where: { id } })
+        return (this.repository as any).findUnique({ where: { id } })
     }
 
-    async update(id: number, data: any) {
-        return this.repository.update({ where: { id }, data })
+    async update(id: number, data: Prisma.Args<DelegateType<T>, 'update'>['data']) {
+        return (this.repository as any).update({ where: { id }, data })
     }
 
     async delete(id: number) {
-        return this.repository.delete({ where: { id } })
+        return (this.repository as any).delete({ where: { id } })
     }
 }

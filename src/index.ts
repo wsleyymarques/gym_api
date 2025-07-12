@@ -1,12 +1,12 @@
-// src/index.ts
 import express from 'express'
+import routes from "./routes";
 
 const app = express()
 const port = 3000
 
-app.use(express.json()) // ✅ Importante para req.body funcionar
+app.use(express.json())
 
-// app.use(userRoutes) // ✅ Usar as rotas
+app.use('/v1',routes)
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
