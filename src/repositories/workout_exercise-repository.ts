@@ -12,9 +12,9 @@ export class WorkoutExerciseRepository extends DefaultRepository<'workoutExercis
         return prisma.workoutExercise.findMany({
             where: { workoutId },
             include: {
-                exercise: true // inclui os dados do exercício
+                exercise: true
             },
-            orderBy: { order: 'asc' } // ordenação opcional por ordem do treino
+            orderBy: { order: 'asc' }
         })
     }
 }
