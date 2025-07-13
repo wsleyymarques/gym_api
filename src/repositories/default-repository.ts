@@ -25,15 +25,15 @@ export class DefaultRepository<T extends DelegateKeys> {
         return (this.repository as any).findMany()
     }
 
-    async findById(id: number) {
+    async findById(id: string) {
         return (this.repository as any).findUnique({ where: { id } })
     }
 
-    async update(id: number, data: Prisma.Args<DelegateType<T>, 'update'>['data']) {
+    async update(id: string, data: Prisma.Args<DelegateType<T>, 'update'>['data']) {
         return (this.repository as any).update({ where: { id }, data })
     }
 
-    async delete(id: number) {
+    async delete(id: string) {
         return (this.repository as any).delete({ where: { id } })
     }
 }

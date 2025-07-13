@@ -36,7 +36,7 @@ export class WorkoutController {
         const { id } = req.params
 
         try {
-            const workout = await workoutRepository.findById(Number(id))
+            const workout = await workoutRepository.findById(id)
             if (!workout) {
                 return res.status(404).json({ error: 'Treino não encontrado' })
             }

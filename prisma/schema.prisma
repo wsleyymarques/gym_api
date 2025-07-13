@@ -8,42 +8,48 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
   workouts  Workout[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Exercise {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   name        String
   description String
-  imageUrl String
-  gifUrl    String
+  imageUrl    String
+  gifUrl      String
   muscleGroup String
   workoutExercises WorkoutExercise[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
 }
 
 model Workout {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   description String
   imageUrl String
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   workoutExercises WorkoutExercise[]
+  updatedAt DateTime @default(now())
 }
 
 model WorkoutExercise {
-  id         Int      @id @default(autoincrement())
-  workoutId  Int
-  exerciseId Int
-  order      Int      // posição no treino
+  id         String   @id @default(uuid())
+  workoutId  String
+  exerciseId String
+  order      Int
   sets       Int
   reps       Int
-  restTime   Int?     // em segundos
+  restTime   Int?
 
   workout    Workout  @relation(fields: [workoutId], references: [id])
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
