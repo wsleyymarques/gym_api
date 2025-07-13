@@ -36,7 +36,7 @@ export class ExerciseController {
  async getExerciseById(req: Request, res: Response) {
         const {id} = req.params
         try {
-            const exercise = await exerciseRepository.findById(Number(id))
+            const exercise = await exerciseRepository.findById(id)
             if (!exercise) {
                 return res.status(404).json({error:'Exercicio nao encontrado'})
             }

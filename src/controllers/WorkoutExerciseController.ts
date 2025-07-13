@@ -9,7 +9,7 @@ const exerciseRepository = new ExerciseRepository()
 
 export class WorkoutExerciseController {
     async addExerciseToWorkout(req: Request, res: Response) {
-        const workoutId = Number(req.params.id)
+        const workoutId = req.params.id
         const { exerciseId, order, sets, reps, restTime } = req.body
 
         try {
@@ -40,7 +40,7 @@ export class WorkoutExerciseController {
     }
 
     async getAllWorkoutExercise(req: Request, res: Response) {
-        const workoutId = Number(req.params.id)
+        const workoutId = req.params.id
 
         try {
             const exercises = await workoutExerciseRepository.findAllByWorkoutId(workoutId)

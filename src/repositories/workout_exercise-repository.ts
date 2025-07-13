@@ -8,7 +8,7 @@ export class WorkoutExerciseRepository extends DefaultRepository<'workoutExercis
         super('workoutExercise')
     }
 
-    async findAllByWorkoutId(workoutId: number) {
+    async findAllByWorkoutId(workoutId: string) {
         return prisma.workoutExercise.findMany({
             where: { workoutId },
             include: {
